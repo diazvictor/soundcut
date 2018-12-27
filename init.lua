@@ -39,3 +39,22 @@ local file_save = builder:get_object('file_save') -- invoco al boton con el id f
 
 local input_desde = builder:get_object('input_desde') -- invoco al boton con el id input_desde
 local input_hasta = builder:get_object('input_hasta') -- invoco al boton con el id input_hasta
+
+-- al presionar el boton about
+function button_about:on_clicked()
+	about_window:run()
+	about_window:hide()
+end
+
+function button_cancel:on_clicked()
+	Gtk.main_quit()
+end
+
+-- cierro la ventana cuando se presione boton cerrar (x)
+function main_window:on_destroy()
+	Gtk.main_quit()
+end
+
+-- inicio la ventana y muestro todo
+main_window:show_all()
+Gtk.main()
