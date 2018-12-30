@@ -40,6 +40,28 @@ local file_save = builder:get_object('file_save') -- invoco al boton con el id f
 local input_desde = builder:get_object('input_desde') -- invoco al boton con el id input_desde
 local input_hasta = builder:get_object('input_hasta') -- invoco al boton con el id input_hasta
 
+function button_save:on_clicked()
+	-- declaro esta variables como locales (solo funcionan detro de esta funcion)
+	local src = file_load:get_filename():gsub(" ", "\\ ")
+	local dest = file_save.text
+	local init = ""
+	local fin = ""
+
+	-- si el input file_save esta vacio entonces lo relleno con la ruta de el archivo que voy a cargar y lo pongo en formato WAV
+	if dest == "" then
+		dest = src..".wav"
+	end
+	-- si los input son diferentes entonces inserto estas variables en la variable cmd
+
+	if input_desde.text ~= "" and input_hasta.text ~= "" then
+		init = " -ss "..input_desde.text
+		fin = " -t "..input_hasta.text
+	end
+	-- concateno todas las variable en una misma
+	local cmd = "ffmpeg -i "..src..init..fin.." "..dest.." &"
+	os.execute(cmd)
+end
+
 -- al presionar el boton about
 function button_about:on_clicked()
 	about_window:run()
